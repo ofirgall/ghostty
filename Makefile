@@ -10,10 +10,11 @@ setup:
 .PHONY: setup
 
 run:
-	zig build run
+	zig build run -Doptimize=ReleaseFast
 .PHONY: run
 
 install:
+	zig build -Doptimize=ReleaseFast
 	cp -r zig-out/Ghostty.app /Applications/Ghostty.app
 .PHONY: install
 
