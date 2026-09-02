@@ -20,8 +20,17 @@ install:
 
 VERSION := $(shell grep '\.version = ' build.zig.zon | head -1 | sed 's/.*"\(.*\)".*/v\1/')
 release:
-	gh release create $(VERSION) --title "$(VERSION)" --generate-notes
+	zig build -Doptimize=ReleaseFast
+	cd zig-out && zip -r Ghostty.app.zip Ghostty.app
+	gh release create $(VERSION) zig-out/Ghostty.app.zip --title "$(VERSION)" --generate-notes
 .PHONY: release
+
+download:
+	gh release download $(VERSION) --repo ofirgall/ghostty --pattern 'Ghostty.app.zip' --dir /tmp
+	rm -rf /Applications/Ghostty.app
+	unzip -o /tmp/Ghostty.app.zip -d /Applications
+	rm /tmp/Ghostty.app.zip
+.PHONY: download
 # glad updates the GLAD loader. To use this, place the generated glad.zip
 # in this directory next to the Makefile, remove vendor/glad and run this target.
 #
