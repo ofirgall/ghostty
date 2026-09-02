@@ -19,8 +19,7 @@ install:
 
 VERSION := $(shell grep '\.version = ' build.zig.zon | head -1 | sed 's/.*"\(.*\)".*/v\1/')
 release:
-	zig build dist
-	gh release create $(VERSION) zig-out/dist/*.tar.gz --title "$(VERSION)" --generate-notes
+	gh release create $(VERSION) --title "$(VERSION)" --generate-notes
 .PHONY: release
 # glad updates the GLAD loader. To use this, place the generated glad.zip
 # in this directory next to the Makefile, remove vendor/glad and run this target.
